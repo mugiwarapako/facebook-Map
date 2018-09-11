@@ -1,0 +1,7 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page">
+    <StackLayout class="home">
+        <Label text="Bienvenido"  class="h1"></Label>
+        <Button automationText="customLogOut" tap="facebook" text="Iniciar Cuenta en Facebook" class="btn btn-primary"></Button>
+        <Button automationText="customLogOut" tap="mapa" text="El Mapa" class="btn btn-primary"></Button>
+    </StackLayout>    
+</Page>

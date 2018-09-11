@@ -1,0 +1,22 @@
+{
+    "description": "Template for starting the NativeScript getting started Groceries tutorial",
+    "nativescript": {
+        "id": "org.nativescript.groceriesjs",
+        "tns-android": {
+            "version": "4.2.0"
+        },
+        "tns-ios": {
+            "version": "4.2.0"
+        }
+    },
+    "readme": "NativeScript Application",
+    "dependencies": {
+        "nativescript-camera": "4.0.2",
+        "nativescript-facebook": "^2.2.3",
+        "nativescript-geolocation": "4.3.0",
+        "nativescript-google-maps-sdk": "^2.6.1",
+        "nativescript-theme-core": "1.0.4",
+        "tns-core-modules": "4.2.0"
+    },
+    "devDependencies": {}
+}
