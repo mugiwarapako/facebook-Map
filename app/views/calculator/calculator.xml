@@ -1,0 +1,26 @@
+    <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page">
+        <StackLayout class="home">
+            
+        </StackLayout>    
+
+        <GridLayout id="principal" columns="100,*" rows="150, 58, 58, 58, 60, 58" width="75%" height="100%" >
+            
+            <Label text="Calculadora" class="h1" row="0" colSpan="3" />
+            
+            <GridLayout id="operaciones1" columns="{{ getColOp }}" rows="60" width="100%" height="100%" row="1" col="1">
+            </GridLayout>
+
+            <Label text="+" class="number-calculator" row="2" col="0" rowSpan="2"/>
+
+            <GridLayout id="operaciones2" columns="{{ getColOp }}" rows="60" width="100%" height="100%" row="2" col="1">
+            </GridLayout>
+
+            <Label text="____________________" class="number" width="100%" height="100%" row="3" col="1" />
+
+            <GridLayout id="campos" columns="{{ getColOp }}" rows="60" width="100%" height="100%" row="4" col="1">
+            </GridLayout>
+
+
+            <Button tap="calcular" text="Calcular" class="btn btn-primary" width="100%" height="100%" row="5" col="0" colSpan="2"></Button>
+    </GridLayout>
+    </Page>

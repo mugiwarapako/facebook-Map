@@ -14,7 +14,7 @@ function _navigate (path) {
     var topmost = frameModule.topmost();
     topmost.navigate({
         moduleName: path,
-        clearHistory: false
+        clearHistory: true
     });
 };
 
@@ -24,4 +24,8 @@ exports.facebook = function () {
 
 exports.mapa = function () {
     _navigate("views/map/map");
+};
+
+exports.calculator = function(){
+    _navigate("views/calculator/calculator");
 };

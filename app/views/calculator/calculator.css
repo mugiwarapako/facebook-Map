@@ -1,0 +1,16 @@
+.number-calculator{
+    font-size: 40px;
+    font-family: Helvetica, Arial;
+    position: relative;
+    text-align: center;
+}
+
+
+.number{
+    font-size: 40px;
+    font-family: Helvetica, Arial;
+    position: relative;
+    text-align: right;
+    float: right;
+    padding-right: 50px;
+}
