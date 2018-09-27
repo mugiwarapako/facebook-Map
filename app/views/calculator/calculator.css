@@ -14,3 +14,24 @@
     float: right;
     padding-right: 50px;
 }
+
+
+.rojo{
+    background-color: red
+}
+
+.azul{
+    background-color: blue
+}
+
+.amarillo{
+    background-color: yellow
+}
+
+.verde{
+    background-color: green
+}
+
+.gris{
+    background-color: grey
+}

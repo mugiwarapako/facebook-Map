@@ -1,72 +1,292 @@
 'use strict'
 const observableModule = require("data/observable");
 const textFieldModule = require("tns-core-modules/ui/text-field");
-const labelModule = require("tns-core-modules/ui/label");
+const Label = require("tns-core-modules/ui/label").Label;
+const GridLayout = require("tns-core-modules/ui/layouts/grid-layout").GridLayout;
+const Button = require("tns-core-modules/ui/button").Button;
+
+
 
 var page;
 
 var pageData = new observableModule.fromObject({
-    level : 1,
-    getColOp : ""
+    level : 15,
+    getColOp : "",
+    getColOpS : ""
 });
 
+var operaciones = {
+    1 : "+",
+    2 : "-",
+    3 : "*"
+}
+
 var colTotal;
+var numMin;
+var numMax;
+var lista = Array();
 
 exports.pageLoaded = function(args) {
 
     page = args.object;
 
-    _llenarOperacion();
+    //_llenarOperacion();
 
+    crearOperacion();
     page.bindingContext = pageData;
 
 }
 
+function crearOperacion(){
+
+    /* Se obtiene el grid principal */
+    var gridPrincipal = page.getViewById("principal");
+    /* se selecciona al azar una operación */
+    //var numeroOperacion = Math.floor(Math.random() * (4 - 1)) + 1;
+    var numeroOperacion = 3;
+    /* Se elimina todo el contenido del grid principal*/
+    gridPrincipal.removeChildren();
 
 
+    /* Se optiene el numero maximo y el minimo para la operacion */
+    _obtenerRango();
 
-function _llenarOperacion(){
+    _obtenerNumeros(numeroOperacion);
+
+    /* Se obtiene para el grid el total de columnas (*,*,*) */
+    pageData.getColOpS = _addValueColGrid(numeroOperacion);
+    pageData.getColOp = pageData.getColOpS+",*"
+
+    gridPrincipal = _agregarEtiquetas(gridPrincipal, numeroOperacion);
+
+    gridPrincipal = _agregarGridContenido(gridPrincipal, numeroOperacion);
     
-    var nivel = pageData.level;
-    console.log("Nivel que estas --> "+nivel);
-    var max;
-    var min = 1;
 
-    if(nivel <= 10){
-        
-        max = 10;
+   
 
-    }else{
-        max = 100;
+    /* Se crea el boton */
+
+    var botonCalular = _crearBoton("Calcular", 8, 1);
+    botonCalular.on("tap", (args) => {
+        console.log(lista);
+        console.log(numeroOperacion);
+        crearOperacion();
+    });
+
+    gridPrincipal.addChild(botonCalular);
+
+    
+}
+
+function _agregarEtiquetas(grid, numeroOperacion){
+
+    var gridLayout = grid;
+
+    /* Se Crean las etiquetas */
+    var titulo = _crearLabel("Calculadora",0,0);
+    titulo.colSpan = 3;
+    var simbolo = _crearLabel(operaciones[numeroOperacion],0,2);
+    simbolo.rowSpan = 2;
+    var igual = _crearLabel("__________________",1,3);
+
+    gridLayout.addChild(titulo);
+    gridLayout.addChild(simbolo);
+    gridLayout.addChild(igual);
+
+    return gridLayout;
+}
+
+function _agregarGridContenido(grid, numeroOperacion){
+    /* Se crea grid's para la operacion */
+    var gridPrimero = _crearGrid("1","1");
+    gridPrimero.className = "amarillo";
+    var gridSegundo = _crearGrid("2","1");
+    gridSegundo.className = "azul";
+    var gridTotal = _crearGrid("4","1");
+    gridTotal.rows = "*,*,*,*";
+    gridTotal.rowSpan = 4;
+    gridTotal.className = "rojo";
+
+     /* A los grid se le agregan los numeros que anteriormente se generaron*/
+    gridPrimero = _agregarEtiquetasGrid(gridPrimero, pageData.get("numero1"));
+    gridSegundo = _agregarEtiquetasGrid(gridSegundo, pageData.get("numero2"));
+    gridTotal = _agregarTextos(gridTotal, numeroOperacion);
+    
+    /* Se agrega el grid principal */
+    
+    grid.addChild(gridPrimero);
+    grid.addChild(gridSegundo);
+    grid.addChild(gridTotal);
+
+    return grid;
+}
+
+function _agregarEtiquetasGrid(grid, numero){
+
+    var gridLayout = grid;
+
+    var cadeSifra = numero.toString().split("");
+    
+    for(var i = colTotal; i > 0; i--){
+
+        var cadena = (cadeSifra.length ? cadeSifra.pop() : '');
+        gridLayout.addChild(_crearLabel(cadena,(i - 1), 1)
+
+        );
     }
 
-    var numero1 = Math.floor(Math.random() * (max - min)) + min;
-    var numero2 = Math.floor(Math.random() * (max - min)) + min;
+    return gridLayout;
+}
 
-    pageData.getColOp = _addValueGrid((numero1 + numero2).toString().length );
+function _agregarTextos(grid, numeroOperacion){
 
-    var gridLayoutop1 = page.getViewById("operaciones1");
-    var gridLayoutop2 = page.getViewById("operaciones2")
+    var gridLayout = grid;
 
-    gridLayoutop1.removeChildren();
-    gridLayoutop2.removeChildren();
+    if(numeroOperacion == 3){
 
-   _addNumbers(numero1, gridLayoutop1);
-   _addNumbers(numero2, gridLayoutop2);
+        console.log("Multiplicacion");
 
-   pageData.set("numero1" , numero1);
-   pageData.set("numero2" , numero2);
+        var cadeSifra = pageData.get("numero2").toString().split("");
+        var igual = _crearLabel("___________________",0,2);
+        igual.colSpan=colTotal;
 
-   _camposNuevos();
+        for(var i = cadeSifra.length - 1; i >= 0 ; i--){
+
+            var resultado = cadeSifra[i] * pageData.get("numero1");
+            console.log(resultado);
+
+            for(var j = 0; j <= resultado.toString().length ; j++){
+
+                console.log("columa" + (colTotal-j));
+                console.log("fila " + i+1);
+                gridLayout.addChild(_crearTexto((colTotal-j),i));
+
+            }
+        }
+
+        gridLayout.addChild(igual);
+
+    }else{
+        for(var i = colTotal; i > 0; i--){
+            gridLayout.addChild(
+                _crearTexto(i,fila)
+            );
+        }
+    }
+
+    return gridLayout;
+}
+
+/* Metodo para crear una etiqueta */
+function _crearLabel(texto, columna, fila){
+
+    const newLabel = new Label();
+    newLabel.text =  texto;
+    newLabel.className = "number";
+    newLabel.col = columna;
+    newLabel.row = fila;
+
+    return newLabel;
+}
+
+/* Metodo para crear un gridLayout */
+function _crearGrid(fila, columna){
+
+    const newGridLayout = new GridLayout();
+    newGridLayout.columns = pageData.getColOp; 
+    newGridLayout.rows="60";
+    newGridLayout.width="100%";
+    newGridLayout.height="100%";
+    newGridLayout.row=fila;
+    newGridLayout.col=columna;
+
+    return newGridLayout;
+}
+
+
+function _crearTexto(num, fila){
+    const textField = new textFieldModule.TextField();
+
+
+    textField.text = "";
+    textField.className = "input input-border number-calculator";
+    textField.col =  num;
+    textField.row =  fila;
+    textField.maxLength = "1";
+    textField.keyboardType = "number";
+
+    textField.on("textChange", function(num){
+
+        console.log(num.value.trim().length);
+        //if(!(num.value.trim().length === 0)){
+        //    _agregarLista(num.object);  
+        //}   
+        
+    });
+    return textField;
+}
+
+
+function _crearBoton(text, fila, columna){
+
+    const newButton = new Button();
+    newButton.text = text;
+    newButton.className = "btn btn-primary btn-active";
+    newButton.width = "100%";
+    newButton.height = "100%";
+    newButton.row = fila;
+    newButton.col = columna;
+
+    return newButton;
 
 }
 
-function _addValueGrid(num){
+
+function _obtenerRango(){
+    var nivel = pageData.level;
+    console.log("Nivel que estas --> "+nivel);
+
+    if(nivel <= 10){
+        numMin = 1;    
+        numMax = 10;
+
+    }else{
+        numMin = 10; 
+        numMax = 100;
+    }
+
+}
+
+function _addValueColGrid(numeroOperacion){
+
+    var num = 0;
+    switch(numeroOperacion){
+
+        case 1:
+        num = (pageData.get("numero1") + pageData.get("numero2")).toString().length;
+        break;
+
+        case 2:
+        num = (pageData.get("numero1") - pageData.get("numero2")).toString().length;
+        break;
+
+        case 3:
+        num = (pageData.get("numero1") * pageData.get("numero2")).toString().length;
+        break;
+
+    }
 
     colTotal = num;
+    
+    return _obtenerStringGrid(num);
+    
+}
+
+
+function _obtenerStringGrid(num){
     var respuesta = "";
 
-    for(var i = 0; i < num; i++){
+    for(var i = 0; i < num-1; i++){
         if(i == (num-1)){
             respuesta += "*";
         }else{
@@ -75,53 +295,16 @@ function _addValueGrid(num){
     }
 
     return (respuesta);
-    
-}
-
-function _addNumbers(number, grid){
-    
-    var gridLayout = grid;
-    var cadeSifra = number.toString().split("");
-
-    for(var i = colTotal; i > 0; i--){
-
-        const myLabel = new labelModule.Label();
-        myLabel.text =  cadeSifra.length ? cadeSifra.pop() : '';
-        myLabel.className = "number";
-        myLabel.col = i - 1;
-
-        gridLayout.addChild(myLabel);
-    }
 }
 
 
-function _camposNuevos(){
-
-    var gridLayout = page.getViewById("campos");
-    gridLayout.removeChildren();
-
-    for(var i = colTotal; i > 0; i--){
-
-        const textField = new textFieldModule.TextField();
-
-        textField.id = "text"+i;
-        textField.text = "";
-        textField.className = "input input-border number-calculator";
-        textField.col =  i - 1;
-        textField.maxLength = "1";
-        textField.keyboardType = "number";
-
-        textField.on("textChange", function(num){
-
-            pageData.set(num.object.id, num.object.text);
-            
-        });
-        
-        gridLayout.addChild(textField);    
-    }
+function _agregarLista(object){
+    console.log("******************" + object.row);
+    var numero = object.id.charAt(object.id.length-1);
+    lista[(object.row + 1)][numero-1] = object.text;
+    //lista.push();
+    console.log("******************" + numero);
 }
-
-
 
 
 exports.calcular = function () {
@@ -148,14 +331,24 @@ exports.calcular = function () {
 
 }
 
-function _addCommas(nStr) {
-    nStr += '';
-    var x = nStr.split('.');
-    var x1 = x[0];
-    var x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+function _obtenerNumeros(numeroOperacion){
+
+    var numero1 = 0;
+    var numero2 = 0;
+
+    /* Se agregan las variables a pageData para la vista */
+    if(numeroOperacion == 2){
+        do{
+            numero1 = Math.floor(Math.random() * (numMax - numMin)) + numMin;
+            numero2 = Math.floor(Math.random() * (numMax - numMin)) + numMin;
+        }while(numero1 < numero2);
+
+        pageData.set("numero1" , numero1);
+        pageData.set("numero2" , numero2);
+    }else{
+        numero1 = Math.floor(Math.random() * (numMax - numMin)) + numMin;
+        numero2 = Math.floor(Math.random() * (numMax - numMin)) + numMin;
+        pageData.set("numero1" , numero1);
+        pageData.set("numero2" , numero2);
     }
-    return x1 + x2;
 }

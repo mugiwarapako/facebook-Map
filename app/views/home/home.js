@@ -14,7 +14,7 @@ function _navigate (path) {
     var topmost = frameModule.topmost();
     topmost.navigate({
         moduleName: path,
-        clearHistory: true
+        clearHistory: false
     });
 };
 
