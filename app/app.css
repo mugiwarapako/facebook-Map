@@ -38,3 +38,43 @@ ActionBar {
   width: 150;
   height: auto;
 }
+
+.number-calculator{
+  font-size: 40px;
+  font-family: Helvetica, Arial;
+  position: relative;
+  text-align: center;
+}
+
+
+.number{
+  font-size: 40px;
+  font-family: Helvetica, Arial;
+  position: relative;
+  text-align: right;
+  float: right;
+  padding-right: 50px;
+}
+
+
+
+
+.rojo{
+  background-color: red
+}
+
+.azul{
+  background-color: blue
+}
+
+.amarillo{
+  background-color: yellow
+}
+
+.verde{
+  background-color: green
+}
+
+.gris{
+  background-color: grey
+}

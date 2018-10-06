@@ -29,3 +29,19 @@ exports.mapa = function () {
 exports.calculator = function(){
     _navigate("views/calculator/calculator");
 };
+
+
+
+exports.suma = function(){
+    _navigate("views/suma/suma");
+};
+
+
+exports.resta = function(){
+    _navigate("views/resta/resta");
+};
+
+
+exports.multiplicacion = function(){
+    _navigate("views/multiplicacion/multiplicacion");
+};

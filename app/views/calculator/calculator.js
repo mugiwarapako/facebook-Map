@@ -40,7 +40,7 @@ function crearOperacion(){
     var gridPrincipal = page.getViewById("principal");
     /* se selecciona al azar una operación */
     var numeroOperacion = Math.floor(Math.random() * (4 - 1)) + 1;
-    var numeroOperacion = 3;
+    //var numeroOperacion = 3;
     /* Se elimina todo el contenido del grid principal*/
     gridPrincipal.removeChildren();
 
@@ -86,12 +86,6 @@ function _agregarGridContenido(grid, numeroOperacion){
     
     var botonCalular;
 
-    
-
-
-    console.log(pageData.get("numero1") + "numeros");
-    console.log(pageData.get("numero2") + "numeros");
-
      /* A los grid se le agregan los numeros que anteriormente se generaron*/
      gridPrimero = _agregarEtiquetasGrid(gridPrimero, pageData.get("numero1"));
      gridSegundo = _agregarEtiquetasGrid(gridSegundo, pageData.get("numero2"));
@@ -116,8 +110,49 @@ function _agregarGridContenido(grid, numeroOperacion){
 
     /* Se modifica el boton */
     botonCalular.on("tap", (args) => {
-        console.log(lista);
-        console.log(numeroOperacion);
+        
+
+        var numeroRespuesta = "";
+
+        lista.forEach(element => {
+            numeroRespuesta+=element;
+        });
+
+        console.log(numeroRespuesta);
+
+        switch(numeroOperacion){
+            case 1:
+            if(parseInt(numeroRespuesta) === parseInt(pageData.get("numero1") + pageData.get("numero2"))){
+
+                alert("si");
+    
+            }else{
+                alert("no");
+            }
+            break;
+
+            case 2:
+            if(parseInt(numeroRespuesta) === parseInt(pageData.get("numero1") - pageData.get("numero2"))){
+
+                alert("si");
+    
+            }else{
+                alert("no");
+            }
+            break;
+
+            case 3:
+            if(parseInt(numeroRespuesta) === parseInt(pageData.get("numero1") * pageData.get("numero2"))){
+
+                alert("si");
+    
+            }else{
+                alert("no");
+            }
+            break;
+        }
+
+
         crearOperacion();
     });
 
@@ -140,8 +175,6 @@ function _agregarEtiquetasGrid(grid, numero){
     
     for(var i = cadeSifra.length - 1; i >=  0; i--){
 
-        console.log("numero en array " + cadeSifra[i]);
-
         if(cadeSifra[i] === undefined){
             gridLayout.addChild(_crearLabel(0, ((colTotal - 1) - lugar), 0));
         }else{
@@ -157,10 +190,7 @@ function _agregarEtiquetasGrid(grid, numero){
 function _agregarTextos(grid, numeroOperacion, fila){
 
     var gridLayout = grid;
-    console.log("*******************   Crearemos los textos");
     if(numeroOperacion == 3){
-
-        console.log("Multiplicacion");
 
         var cadeSifra = pageData.get("numero2").toString().split("");
 
@@ -194,20 +224,31 @@ function _agregarTextos(grid, numeroOperacion, fila){
 
         
     }else{
-        console.log("*******************"+colTotal);
         for(var i = colTotal; i >= 0; i--){  
             
-            gridLayout.addChild(
-                _crearTexto(i,fila)
-            );
+            var texto = _crearTexto(i,fila);
+
+            texto.on("textChange", function(num){
+
+                _agregarLista(num.object);   
+            });
+
+            gridLayout.addChild(texto);
+
         }
     }
 
     for(var j = colTotal; j >= 0; j--){  
+        
+        var texto = _crearTexto(j,3);
+
+        texto.on("textChange", function(num){
+
+            _agregarLista(num.object);   
             
-        gridLayout.addChild(
-            _crearTexto(j,3)
-        );
+        });
+
+        gridLayout.addChild(texto);
     }
 
     return gridLayout;
@@ -248,14 +289,6 @@ function _crearTexto(num, fila){
     textField.maxLength = "1";
     textField.keyboardType = "number";
 
-    textField.on("textChange", function(num){
-
-        console.log(num.value);
-        //if(!(num.value.trim().length === 0)){
-        //    _agregarLista(num.object);  
-        //}   
-        
-    });
     return textField;
 }
 
@@ -277,7 +310,6 @@ function _crearBoton(text, fila, columna){
 
 function _obtenerRango(){
     var nivel = pageData.level;
-    console.log("Nivel que estas --> "+nivel);
 
     if(nivel <= 10){
         numMin = 1;    
@@ -331,15 +363,15 @@ function _obtenerStringGrid(num){
             respuesta += "*,";
         }
     }
-
-    console.log(respuesta);
     return (respuesta);
 }
 
 
 function _agregarLista(object){
-    console.log("******************" + object.row);
-    console.log("******************" + numero);
+    console.log("******************" + object.col);
+    console.log("******************" + object.text);
+
+    lista[object.col] = object.text;
 }
 
 
@@ -350,10 +382,6 @@ exports.calcular = function () {
     for(var i = 0; i < colTotal; i++){
         total += (pageData.get("text"+(i+1)))+'';
     }
-
-    
-    console.log("Total colocado por el usuario ---> " + parseInt(total));
-    console.log("Total de la suma ------> " + (pageData.get("numero1") + pageData.get("numero2")));
 
     if(parseInt(total) == (pageData.get("numero1") + pageData.get("numero2"))){
         alert("Correcto");
