@@ -2,9 +2,10 @@
     <StackLayout class="home">
         <Label text="Bienvenido"  class="h1"></Label>
         <Button tap="facebook" text="Iniciar Cuenta en Facebook" class="btn btn-primary"></Button>
-        <Button tap="mapa" text="El Mapa" class="btn btn-primary"></Button>
+        <Button tap="calculator" text="El Mapa" class="btn btn-primary"></Button>
         <Button tap="suma" text="Suma" class="btn btn-primary"></Button>
         <Button tap="resta" text="Resta" class="btn btn-primary"></Button>
         <Button tap="multiplicacion" text="Multiplicación" class="btn btn-primary"></Button>
+        
     </StackLayout>    
 </Page>

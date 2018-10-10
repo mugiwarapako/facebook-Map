@@ -109,12 +109,15 @@ function _obtenerStringRowGrid(num){
     totalRows =num;
 
     for(var i = num; i > 0; i--){
+
+        
         if(i == num){
-            respuesta += "150";
+            respuesta += "auto";
         }else{
-            respuesta += ",58";
+            respuesta += ",auto";
         }
     }
+    
     return (respuesta);
 }
 
@@ -123,35 +126,26 @@ function _agregarEtiquetas(grid){
 
     var gridLayout = grid;
 
-    gridLayout.rows = (_obtenerStringRowGrid(6));
+    gridLayout.rows = (_obtenerStringRowGrid(5));
 
     if(pageData.get("numero2").toString().length > 1){
-
-        
-        gridLayout.rows = (_obtenerStringRowGrid((pageData.get("numero2").toString().length) + 7));
-
+        gridLayout.rows = (_obtenerStringRowGrid((pageData.get("numero2").toString().length) + 6));
         var simbolo2 = _crearLabel("+",0,0);
-        simbolo2.rowSpan = 2;
-        simbolo2.row = 5;
+        simbolo2.row = 4;
 
-        var igual2 = _crearLabel("__________________",1,3);
+        var igual2 = _crearLabel("",1,3);
         igual2.row = totalRows - 3;
-
+        igual2.className = "border";
         gridLayout.addChild(igual2);
         gridLayout.addChild(simbolo2);
     }
 
     /* Se Crean las etiquetas */
-    var titulo = _crearLabel("Multiplicación",0,0);
-    titulo.colSpan = 2;
-    titulo.row = 0;
     var simbolo = _crearLabel("*",0,0);
-    simbolo.rowSpan = 2;
-    simbolo.row = 2;
-    var igual = _crearLabel("__________________",1,3);
-    igual.row = 3;
-
-    gridLayout.addChild(titulo);
+    simbolo.row = 1;
+    var igual = _crearLabel("",1,3);
+    igual.row = 2;
+    igual.className = "border";
     gridLayout.addChild(simbolo);
     gridLayout.addChild(igual);
 
@@ -170,8 +164,8 @@ function _crearLabel(texto, columna, fila){
 
 function _agregarGridContenido(grid){
     /* Se crea grid's para la operacion */
-    var gridPrimero = _crearGrid("1","1");
-    var gridSegundo = _crearGrid("2","1");
+    var gridPrimero = _crearGrid("0","1");
+    var gridSegundo = _crearGrid("1","1");
     
     var gridTotal = _crearGrid((totalRows - 2),"1");
     
@@ -183,8 +177,8 @@ function _agregarGridContenido(grid){
 
 
     if(pageData.get("numero2").toString().length > 1){
-        var gridSuma = _crearGrid(4,"1");
-        var filaSuma = totalRows - 7;
+        var gridSuma = _crearGrid(3,"1");
+        var filaSuma = totalRows - 6;
         gridSuma.rowSpan = filaSuma;
 
         gridSuma = _crearTextoSuma(gridSuma, filaSuma);
@@ -300,8 +294,6 @@ function _crearGrid(fila, columna){
 
     const newGridLayout = new GridLayout();
     newGridLayout.columns = pageData.getColOp; 
-    newGridLayout.width="100%";
-    newGridLayout.height="100%";
     newGridLayout.row=fila;
     newGridLayout.col=columna;
 
@@ -313,10 +305,9 @@ function _crearBoton(text, fila, columna){
     const newButton = new Button();
     newButton.text = text;
     newButton.className = "btn btn-primary btn-active";
-    newButton.width = "100%";
-    newButton.height = "100%";
     newButton.row = fila;
     newButton.col = columna;
+    newButton.colSpan = 2;
 
     return newButton;
 

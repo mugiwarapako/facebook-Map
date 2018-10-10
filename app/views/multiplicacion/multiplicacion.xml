@@ -1,7 +1,8 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page">
-    <StackLayout class="home">
-        <GridLayout  id="principal" columns="100,*" rows="150, 58, 58, 58, 58, 60" width="100%" height="100%" >     
+    <ScrollView>
+        <GridLayout  id="principal" columns="auto,*" rows="*, *, *, *, *, *" align="left" width="50%" height="100%" >     
 
         </GridLayout>
-    </StackLayout>    
+    </ScrollView> 
+    
 </Page>
