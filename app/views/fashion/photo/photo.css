@@ -1,0 +1,24 @@
+.container {
+    background-color: gray;
+}
+
+.photo-border {
+    border-color:#fff;
+    
+    border-top-width: 10;
+    border-right-width: 10;
+    border-bottom-width: 25;
+    border-left-width: 10;
+}
+.photo-border img{
+    width: 100%;
+    height: 100%;
+}
+
+.photo-title {
+    text-align: center;
+    width: 100%;
+    bottom: 0px;
+    font: 400 18px/1 'Kaushan Script', cursive;
+    color: #888;
+}

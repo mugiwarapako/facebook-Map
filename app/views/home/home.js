@@ -33,15 +33,27 @@ exports.calculator = function(){
 
 
 exports.suma = function(){
-    _navigate("views/suma/suma");
+    _navigate("views/calculator/suma/suma");
 };
 
 
 exports.resta = function(){
-    _navigate("views/resta/resta");
+    _navigate("views/calculator/resta/resta");
 };
 
 
 exports.multiplicacion = function(){
-    _navigate("views/multiplicacion/multiplicacion");
+    _navigate("views/calculator/multiplicacion/multiplicacion");
 };
+
+exports.photo = function(){
+    _navigate("views/fashion/photo/photo");
+};
+
+exports.addphoto = function(){
+    _navigate("views/fashion/addphoto/addphoto");
+};
+
+exports.gallery = function(){
+    _navigate("views/fashion/gallery/gallery");  
+}

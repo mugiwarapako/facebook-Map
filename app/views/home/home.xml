@@ -1,11 +1,16 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page">
-    <StackLayout class="home">
-        <Label text="Bienvenido"  class="h1"></Label>
-        <Button tap="facebook" text="Iniciar Cuenta en Facebook" class="btn btn-primary"></Button>
-        <Button tap="calculator" text="El Mapa" class="btn btn-primary"></Button>
-        <Button tap="suma" text="Suma" class="btn btn-primary"></Button>
-        <Button tap="resta" text="Resta" class="btn btn-primary"></Button>
-        <Button tap="multiplicacion" text="Multiplicación" class="btn btn-primary"></Button>
-        
-    </StackLayout>    
+    <ScrollView>
+        <StackLayout class="home">
+            <Label text="Facebook"></Label>
+            <Button tap="facebook" text="Iniciar Cuenta en Facebook" class="btn btn-primary"></Button>
+            <Label text="Calculadora"></Label>
+            <Button tap="suma" text="Suma" class="btn btn-primary"></Button>
+            <Button tap="resta" text="Resta" class="btn btn-primary"></Button>
+            <Button tap="multiplicacion" text="Multiplicación" class="btn btn-primary"></Button>
+            <Label text="Fotografias"></Label>
+            <Button tap="photo" text="foto" class="btn btn-primary"></Button>
+            <Button tap="addphoto" text="Agregar Foto" class="btn btn-primary"></Button>
+            <Button tap="gallery" text="Mostrar Fotos" class="btn btn-primary"></Button>
+        </StackLayout>    
+    </ScrollView>
 </Page>
