@@ -6,7 +6,6 @@ function PhotoViewModel(items) {
 
     var viewModel = new ObservableArray(items);
 
-
     viewModel.add = function (photoData) {
         console.log("JSON ----*****---> " + JSON.stringify(photoData));
         console.log("apiUrl *****---> " + config.Config.apiUrl + "models/addModels");
@@ -17,7 +16,7 @@ function PhotoViewModel(items) {
                 descripcion: photoData.description,
                 imagen: photoData.imagen,
                 latitud: photoData.latitude,
-                statuxs: photoData.status,
+                status: photoData.status,
                 longitud: photoData.longitude,
                 descripcion:photoData.descripcion
             }),

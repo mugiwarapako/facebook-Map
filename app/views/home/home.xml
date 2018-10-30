@@ -11,6 +11,7 @@
             <Button tap="photo" text="foto" class="btn btn-primary"></Button>
             <Button tap="addphoto" text="Agregar Foto" class="btn btn-primary"></Button>
             <Button tap="gallery" text="Mostrar Fotos" class="btn btn-primary"></Button>
+            <Button tap="ratephoto" text="Actualizar Fotos" class="btn btn-primary"></Button>
         </StackLayout>    
     </ScrollView>
 </Page>

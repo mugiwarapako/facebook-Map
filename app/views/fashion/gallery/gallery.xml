@@ -1,22 +1,18 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" xmlns:ns="nativescript-carousel">
 
-    
-
-    <FlexboxLayout flexDirection="column"> 
-        <ScrollView flexGrow="1" id="scrollview" height="80%">
-            <FlexboxLayout flexWrap="wrap" alignContent="flex-start" height="100%">
-              <GridLayout width="100%" height="100%" backgroundColor="white">
-                <ns:Carousel items="{{ listModels }}" pageChanged="myChangeEvent" pageScrolling="myScrollingEvent" height="100%" width="100%">
+    <GridLayout   columns="*" rows="*, *" align="left" width="100%" height="100%" > 
+        <ScrollView flexGrow="1" id="scrollview" height="50%">
+              <GridLayout col="0" row="0" width="100%" height="100%" backgroundColor="red">
+                <ns:Carousel items="{{ listModels }}" height="100%" width="100%"  indicatorColor="#d60a93" indicatorColorUnselected="white">
                   <ns:Carousel.itemTemplate>
                     <ns:CarouselItem  verticalAlignment="center" tap="">
                       <Image src="{{ imagen }}"  />
                     </ns:CarouselItem>
                   </ns:Carousel.itemTemplate>
                 </ns:Carousel>
-                <ActivityIndicator row="1" id="activityIndicator" busy="{{isLoading}}"  width="100" height="100" class="activity-indicator"></ActivityIndicator>
+                <ActivityIndicator row="1" id="activityIndicator" busy="true"  width="100" height="100" class="activity-indicator"></ActivityIndicator>
               </GridLayout>
-            </FlexboxLayout>
         </ScrollView>
-    </FlexboxLayout>
+    </GridLayout>
 
 </Page>

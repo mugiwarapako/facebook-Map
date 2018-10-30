@@ -4,10 +4,13 @@ const cameraModule = require("nativescript-camera");
 const imageSourceModule	= require("image-source");
 const dialogs = require("ui/dialogs");
 const PhotoViewModel = require("../../../shared/fashion/photo-view-model/photo-view-model");
-
+const geolocation = require("nativescript-geolocation");
+const  enumsUI = require("ui/enums");
 
 var page;
 var photoView = new PhotoViewModel([]);
+var longitud;
+var latitud;
 
 var pageData = new observableModule.fromObject({
     note : ""
@@ -16,6 +19,7 @@ var pageData = new observableModule.fromObject({
 exports.pageLoaded = function(args) {
 
     page = args.object;
+    location();
     page.bindingContext = pageData;
 
 
@@ -67,9 +71,14 @@ exports.onRequestPermissionsTap = function(){
 exports.onSaveUser = function(){
     var image = page.getViewById("image");
 
-    var userJson = { "imagen": image.src, "longitude": 0,"latitude" : 0, "status" : 1, "descripcion":pageData.note};
+    console.log(longitud);
+    console.log(latitud);
 
-    photoView.add(userJson).then(function(){
+    var photoJson = { "imagen": image.src, "longitude": longitud, "latitude" : latitud, "status" : 1, "descripcion":pageData.note};
+
+    console.log(photoJson);
+
+    photoView.add(photoJson).then(function(){
 
         dialogs.alert({
             message: "Modelo correctamente guardado.",
@@ -86,3 +95,40 @@ exports.onSaveUser = function(){
     });
 
 }
+
+function location(){
+    var flagLocation = 0;
+    if (!geolocation.isEnabled()) {
+		// HABILITAR PERMISOS DE UBICACION
+		geolocation.enableLocationRequest()
+			.then(function() {
+			
+			flagLocation = 1;
+
+			// OBTENEMOS UBICACION ACTUAL
+			var location = geolocation.getCurrentLocation({ desiredAccuracy: enumsUI.Accuracy.high, updateDistance: 10, timeout: 10000 })
+				.then(function (loc) {
+				if (loc) {
+					longitud = loc.longitude;
+					latitud = loc.latitude;
+				};									
+			}, function(error) {
+				longitud = 0;
+				latitud = 0;
+			});
+		});
+	} else {
+		if(flagLocation == 0) {
+			
+			var location = geolocation.getCurrentLocation({ desiredAccuracy: enumsUI.Accuracy.high, updateDistance: 5, timeout: 5000 })
+				.then(function (loc) {
+				if (loc) {
+					longitud = loc.longitude;
+					latitud = loc.latitude;	
+                };
+			}, function (e) {
+				console.log("Error location: " + e.message);
+			});
+		};
+	};   
+  }

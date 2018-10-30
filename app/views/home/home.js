@@ -57,3 +57,7 @@ exports.addphoto = function(){
 exports.gallery = function(){
     _navigate("views/fashion/gallery/gallery");  
 }
+
+exports.ratephoto = function(){
+    _navigate("views/fashion/rate-photo/rate-photo");  
+}
